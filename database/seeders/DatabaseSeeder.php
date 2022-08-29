@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // Create a admin user
-        \App\Models\User::factory()->create([
+        $adminUser = \App\Models\User::factory()->create([
             'name' => 'admin',
             'email' => 'admin@teste.com',
             'email_verified_at' => now(),
@@ -30,7 +30,9 @@ class DatabaseSeeder extends Seeder
         // Create a specific Quiz with five questions
         $quiz = \App\Models\Quiz::factory()->create([
             'title' => 'Marvel Fans',
-            'slug' => 'marvel-fans'
+            'slug' => 'marvel-fans',
+            'description' => 'If you are a Marvel fan this Quiz is for you',
+            'user_id' => $adminUser->id
         ]);
         for ($i = 1; $i <= 5; $i++) {
             $question = \App\Models\Question::factory()->make();

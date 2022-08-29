@@ -11,12 +11,21 @@ class Quiz extends Model
 
     protected $fillable = [
         'title',
-        'slug'
+        'slug',
+        'description',
+        'cover_image',
+        'user_id'
     ];
 
 
     public function questions()
     {
         return $this->hasMany(Question::class);
+    }
+
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }
