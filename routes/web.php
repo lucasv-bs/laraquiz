@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\QuizController;
 
 use Illuminate\Support\Facades\Auth;
@@ -36,6 +37,16 @@ Route::post('/quizzes/store',
 // Store a Quiz with a flag to add a question
 Route::post('/quizzes/store-and-add', 
     [QuizController::class, 'storeAndAdd']
+)->middleware('auth');
+
+
+// Show form to create a Question
+Route::get('/quizzes/{quiz:slug}/questions/create', 
+    [QuestionController::class, 'create']
+)->middleware('auth');
+
+Route::post('/quizzes/{quiz:slug}/questions/store', 
+    [QuestionController::class, 'store']
 )->middleware('auth');
 
 Auth::routes();
