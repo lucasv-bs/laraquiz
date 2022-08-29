@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\QuizController;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -18,6 +20,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// Show all quizzes
+Route::get('/quizzes', [QuizController::class, 'index']);
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
