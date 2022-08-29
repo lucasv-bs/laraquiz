@@ -22,6 +22,22 @@ Route::get('/', function () {
 
 // Show all quizzes
 Route::get('/quizzes', [QuizController::class, 'index']);
+
+// Show form to create a Quiz
+Route::get('/quizzes/create', 
+    [QuizController::class, 'create']
+)->middleware('auth');
+
+// Store a Quiz
+Route::post('/quizzes/store', 
+    [QuizController::class, 'store']
+)->middleware('auth');
+
+// Store a Quiz with a flag to add a question
+Route::post('/quizzes/store-and-add', 
+    [QuizController::class, 'storeAndAdd']
+)->middleware('auth');
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
