@@ -36,6 +36,7 @@ class QuestionController extends Controller
         $question->save();
 
         $answers = $request->input('answers');
+        sort($answers);
         foreach($answers as $key => $data) {
             $answerDataValidator = Validator::make($request->all(), [
                 "answers.$key.answer_text" => 'required',
@@ -56,6 +57,21 @@ class QuestionController extends Controller
         return redirect("/quizzes/$quiz->slug/questions/create")->with([
             'message' => 'Question created successfully',
             'status' => 'success'
+        ]);
+    }
+
+
+    // Performs a Question
+    public function perform(Quiz $quiz, Question $question)
+    {
+        $answers = $question->answers;
+        $lastAnswersKey = array_keys($answers->modelKeys());
+        $lastAnswersKey = end($lastAnswersKey);
+        return view('questions.perform', [
+            'quiz' => $quiz,
+            'question' => $question,
+            'answers' => $answers,
+            'lastAnswersKey' => $lastAnswersKey
         ]);
     }
 }

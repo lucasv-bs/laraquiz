@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CompletedQuizController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\QuizController;
 
@@ -45,9 +46,32 @@ Route::get('/quizzes/{quiz:slug}/questions/create',
     [QuestionController::class, 'create']
 )->middleware('auth');
 
+// Store a Question
 Route::post('/quizzes/{quiz:slug}/questions/store', 
     [QuestionController::class, 'store']
 )->middleware('auth');
+
+
+// Plays a Quiz
+Route::get('/quizzes/{quiz:slug}/play', 
+    [QuizController::class, 'play']
+)->middleware('auth');
+
+// Performs a Quiz Question
+Route::get('/quizzes/{quiz:slug}/play/{question:question_number}', 
+    [QuestionController::class, 'perform']
+)->middleware('auth');
+
+// Store a Completed Quiz
+Route::post('/quizzes/{quiz:slug}/play/{question:question_number}', 
+    [CompletedQuizController::class, 'store']
+)->middleware('auth');
+
+// Show the result of a Completed Quiz
+Route::get('/quizzes/{quiz:slug}/result/{completedQuiz}', 
+    [CompletedQuizController::class, 'result']
+);
+
 
 Auth::routes();
 

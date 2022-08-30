@@ -64,4 +64,15 @@ class QuizController extends Controller
             'status' => 'success'
         ]);
     }
+
+
+    // Plays a Quiz
+    public function play(Quiz $quiz)
+    {
+        $firstQuestion = $quiz->questions()
+            ->orderBy('question_number')
+            ->first();
+        
+        return redirect("/quizzes/$quiz->slug/play/$firstQuestion->question_number");
+    }
 }
