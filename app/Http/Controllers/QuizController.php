@@ -18,6 +18,20 @@ class QuizController extends Controller
         ]);
     }
 
+    
+    // Show a Quiz
+    public function show(Request $request, Quiz $quiz)
+    {
+        $userCanEdit = $quiz->user_id == $request->user()->id;
+        $questionsAmount = $quiz->questions()->count();
+        $averageScore = $quiz->completedQuizzes()->avg('result');
+        
+        return view('quizzes.show', [
+            'quiz' => $quiz,
+            'questionsAmount' => $questionsAmount,
+            'averageScore' => $averageScore
+        ]);
+    }
 
 
     // Show form to create a Quiz
