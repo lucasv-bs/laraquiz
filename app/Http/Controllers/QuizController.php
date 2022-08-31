@@ -80,6 +80,44 @@ class QuizController extends Controller
     }
 
 
+    // Show form to edit a Quiz
+    public function edit(Request $request, Quiz $quiz)
+    {
+        // Make sure logged in user is owner
+        if($quiz->user_id != $request->user()->id) {
+            abort(403, 'Unauthorized action');
+        }
+        
+        return view('quizzes.edit', [
+            'quiz' => $quiz,
+            'questions' => $quiz->questions
+        ]);
+    }
+
+
+    // Update a Quiz
+    public function update(Request $request, Quiz $quiz)
+    {
+        $formData = $request->validate([
+            'title' => 'required',
+            'description' => 'required'
+        ]);
+        $formData['slug'] = Str::slug($request->input('title'));
+
+        if ($request->hasFile('cover_image')) {
+            $formData['cover_image'] = $request->file('cover_image')->store('quizzes/cover-images', 'public');
+        }
+        $formData['user_id'] = $request->user()->id;
+
+        $quiz->update($formData);
+
+        return redirect("/quizzes/$quiz->slug/edit")->with([
+            'message' => 'Quiz updated successfully',
+            'status' => 'success'
+        ]);
+    }
+
+
     // Plays a Quiz
     public function play(Quiz $quiz)
     {

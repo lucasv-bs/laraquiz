@@ -45,6 +45,17 @@ Route::get('/quizzes/{quiz:slug}',
     [QuizController::class, 'show']
 )->middleware('auth');
 
+// Show form to edit a Quiz
+Route::get('quizzes/{quiz:slug}/edit', 
+    [QuizController::class, 'edit']
+)->middleware('auth');
+
+// Update a Quiz
+Route::put('/quizzes/{quiz:slug}/update', 
+    [QuizController::class, 'update']
+)->middleware('auth');
+
+
 
 // Show form to create a Question
 Route::get('/quizzes/{quiz:slug}/questions/create', 
