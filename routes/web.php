@@ -40,6 +40,11 @@ Route::post('/quizzes/store-and-add',
     [QuizController::class, 'storeAndAdd']
 )->middleware('auth');
 
+// Manage Quizzes
+Route::get('/quizzes/manage', 
+    [QuizController::class, 'manage']
+)->middleware('auth');
+
 // Show a Quiz
 Route::get('/quizzes/{quiz:slug}', 
     [QuizController::class, 'show']

@@ -154,6 +154,15 @@ class QuizController extends Controller
     }
 
 
+    // Manage Quizzes
+    public function manage(Request $request)
+    {
+        return view('quizzes.manage', [
+            'quizzes' => $request->user()->quizzes()->get()       
+        ]);
+    }
+
+
     // Plays a Quiz
     public function play(Quiz $quiz)
     {
