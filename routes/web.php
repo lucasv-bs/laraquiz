@@ -55,6 +55,10 @@ Route::put('/quizzes/{quiz:slug}/update',
     [QuizController::class, 'update']
 )->middleware('auth');
 
+// Delete a Quiz
+Route::delete('/quizzes/{quiz:slug}/delete', 
+    [QuizController::class, 'destroy']
+)->middleware('auth');
 
 
 // Show form to create a Question

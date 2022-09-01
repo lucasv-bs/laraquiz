@@ -118,6 +118,42 @@ class QuizController extends Controller
     }
 
 
+    // Delete a Quiz
+    public function destroy(Request $request, Quiz $quiz)
+    {
+        // Make sure logged in user is owner
+        if($quiz->user_id != $request->user()->id) {
+            abort(403, 'Unauthorized action');
+        }
+        // Delete all completed quizzes
+        $completedQuizzes = $quiz->completedQuizzes;
+        foreach($completedQuizzes as $completeQuiz) {
+            $selectedAnswers = $completeQuiz->selectedAnswers;
+            foreach($selectedAnswers as $selectedAnswer) {
+                $selectedAnswer->delete();
+            }
+
+            $completeQuiz->delete();
+        }
+        // Delete all questions
+        $questions = $quiz->questions;
+        foreach($questions as $question) {
+            $answers = $question->answers;
+            foreach($answers as $answer) {
+                $answer->delete();
+            }
+
+            $question->delete();
+        }
+        $quiz->delete();
+
+        return back()->with([
+            'message' => 'Quiz deleted successfully',
+            'status' => 'danger'
+        ]);
+    }
+
+
     // Plays a Quiz
     public function play(Quiz $quiz)
     {
