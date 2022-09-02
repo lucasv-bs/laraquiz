@@ -10,9 +10,10 @@
         
         <div class="row">
             <x-card class="col">
-                <form method="POST" action="/quizzes/{{ $quiz->slug }}/questions/store"
+                <form method="POST" action="/quizzes/{{ $quiz->slug }}/questions/{{$question->question_number}}/update"
                     enctype="application/x-www-form-urlencoded" class="needs-validation">
                     @csrf
+                    @method('PUT')
 
                     <div class="mb-3 row">
                         <div class="col-md-3 col-sm-12">
@@ -31,7 +32,7 @@
                             <label for="questionTitle" class="form-label">Question title</label>
                             <input type="text" class="form-control @error('title') is-invalid @enderror"
                                 id="questionTitle" name="title" 
-                                value="{{ old('title') }}"
+                                value="{{$question->title}}"
                                 placeholder="Enter the Question title">
 
                             @error('title')
@@ -42,7 +43,7 @@
                             <label for="correctAnswer" class="form-label">Enter the correct answer number</label>
                             <input type="number" class="form-control @error('correct_answer') is-invalid @enderror"
                                 id="correctAnswer" name="correct_answer" 
-                                value="{{ old('correct_answer') }}">
+                                value="{{$question->correct_answer}}">
 
                             @error('correct_answer')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -62,35 +63,41 @@
                                     data-element=".answer">Add answer</button>
                             </div>
                         </div>
-                        <div class="mb-3 row answer">
-                            <div class="col-md-3 col-sm-12">
-                                <label for="answerNumber1" class="form-label"
-                                    data-field-label="answerNumber">Answer number</label>
-                                <input type="number" class="form-control @error('answer_number') is-invalid @enderror"
-                                    id="answerNumber1" name="answers[0][answer_number]" 
-                                    data-field-name="answerNumber"
-                                    value="1"
-                                    readonly>
+                        @foreach ($answers as $answer)
+                            <div class="row mb-3 align-items-end answer">
+                                <div class="col-md-3 col-sm-12">
+                                    <label for="answerNumber{{$answer->answer_number}}" class="form-label"
+                                        data-field-label="answerNumber">Answer number</label>
+                                    <input type="number" class="form-control @error('answer_number') is-invalid @enderror"
+                                        id="answerNumber{{$answer->answer_number}}" 
+                                        name="answers[{{$answer->answer_number - 1}}][answer_number]" 
+                                        data-field-name="answerNumber"
+                                        value="{{$answer->answer_number}}"
+                                        readonly>
 
-                                @error('answer_number')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="col">
-                                <label for="answerText1" class="form-label"
-                                    data-field-label="answerText">Answer text</label>
-                                <input type="text" class="form-control @error('answer_text') is-invalid @enderror"
-                                    id="answerText1" name="answers[0][answer_text]" 
-                                    data-field-name="answerText"
-                                    value=""
-                                    placeholder="Enter the Answer text">
+                                    @error('answer_number')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="col">
+                                    <label for="answerText{{$answer->answer_number}}" class="form-label"
+                                        data-field-label="answerText">Answer text</label>
+                                    <input type="text" class="form-control @error('answer_text') is-invalid @enderror"
+                                        id="answerText{{$answer->answer_number}}" 
+                                        name="answers[{{$answer->answer_number - 1}}][answer_text]" 
+                                        data-field-name="answerText"
+                                        value="{{$answer->answer_text}}"
+                                        placeholder="Enter the Answer text">
 
-                                @error('answer_text')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
+                                    @error('answer_text')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="col-1">
+                                    <button type="button" class="btn btn-danger answerDelete">Delete</button>
+                                </div>
                             </div>
-                        </div>
-                        
+                        @endforeach
                     </fieldset>
 
                     <div class="row justify-content-between">
@@ -98,7 +105,7 @@
                             <button class="btn btn-primary">Save</button>
                         </div>
                         <div class="col text-end">
-                            <a href="/quizzes/{{$quiz->slug}}/edit" class="btn btn-danger">Return to Quiz</a>
+                            <a href="/quizzes/{{$quiz->slug}}/edit" class="btn btn-secondary">Return to Quiz</a>
                         </div>
                     </div>
                 </form>

@@ -76,6 +76,15 @@ Route::post('/quizzes/{quiz:slug}/questions/store',
     [QuestionController::class, 'store']
 )->middleware('auth');
 
+// Show form to edit a Question
+Route::get('/quizzes/{quiz:slug}/questions/{question:question_number}/edit',
+    [QuestionController::class, 'edit']
+);
+
+// Update a Question
+Route::put('/quizzes/{quiz:slug}/questions/{question:question_number}/update',
+    [QuestionController::class, 'update']
+);
 
 // Plays a Quiz
 Route::get('/quizzes/{quiz:slug}/play', 

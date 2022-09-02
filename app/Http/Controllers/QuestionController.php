@@ -36,7 +36,6 @@ class QuestionController extends Controller
         $question->save();
 
         $answers = $request->input('answers');
-        sort($answers);
         foreach($answers as $key => $data) {
             $answerDataValidator = Validator::make($request->all(), [
                 "answers.$key.answer_text" => 'required',
@@ -56,6 +55,98 @@ class QuestionController extends Controller
 
         return redirect("/quizzes/$quiz->slug/questions/create")->with([
             'message' => 'Question created successfully',
+            'status' => 'success'
+        ]);
+    }
+
+
+    // Show form to edit a Question
+    public function edit(Request $request, Quiz $quiz, Question $question)
+    {
+        // Check if user is Quiz owner
+        if($quiz->user_id != $request->user()->id) {
+            abort(403, 'Unauthorized Action');
+        }
+
+        return view('questions.edit', [
+            'quiz' => $quiz,
+            'question' => $question,
+            'questionNumber' => $question->question_number,
+            'answers' => $question->answers
+        ]);
+    }
+
+
+    // Update a Question
+    public function update(Request $request, Quiz $quiz, Question $question)
+    {
+        $questionData = $request->validate([
+            'title' => 'required',
+            'question_number' => 'required|numeric',
+            'correct_answer' => 'required|numeric'
+        ]);
+        
+        // Validate the correct answer number entered
+        $correctAnswerValidator = Validator::make($request->all(), [
+            'correct_answer' => 'required|numeric'
+        ]);
+        
+        $answersAmount = count($request->input('answers'));
+        $correctAnswerValidator->sometimes('correct_answer', "between:1,$answersAmount", function($input, $value) {
+            $answersAmount = count($input->answers);
+            return $input->correct_answer > $answersAmount;
+        });
+        if($correctAnswerValidator->fails()) {
+            return redirect("/quizzes/$quiz->slug/questions/$question->question_number/edit")
+                        ->withErrors($correctAnswerValidator)
+                        ->withInput();
+        }
+
+        // Update the question
+        $question->update($questionData);
+
+        // Update the answers
+        $newAnswers = $request->input('answers');
+        $storedListAnswers = $question->answers;
+        foreach($storedListAnswers as $storedAnswer) {
+            $existInNewAnswers = false;
+
+            foreach($newAnswers as $key => $data) {
+                $answerDataValidator = Validator::make($request->all(), [
+                    "answers.$key.answer_text" => 'required',
+                    "answers.$key.answer_number" => 'required|numeric'
+                ]);
+                
+                if($answerDataValidator->fails()) {
+                    return redirect("/quizzes/$quiz->slug/questions/$question->question_number/edit")
+                        ->withErrors($answerDataValidator)
+                        ->withInput();
+                }
+                // Updates existing answers
+                if ($storedAnswer->answer_number == intval($data['answer_number'])) {
+                    $existInNewAnswers = true;
+                    $storedAnswer->answer_text = $data['answer_text'];
+                    $storedAnswer->save();
+                }
+            }
+            // Removes the answer of the database
+            if($existInNewAnswers == false) {
+                $storedAnswer->delete();
+            }
+        }
+        
+        // Adds new answers
+        $storedAnswersAmount = $question->answers()->count();
+        foreach($newAnswers as $key => $data) {
+            if ($storedAnswersAmount < intval($data['answer_number'])) {
+                $answer = new Answer($data);
+                $answer->question_id = $question->id;
+                $answer->save();
+            }
+        }
+
+        return redirect("/quizzes/$quiz->slug/questions/$question->question_number/edit")->with([
+            'message' => 'Question updated successfully',
             'status' => 'success'
         ]);
     }
