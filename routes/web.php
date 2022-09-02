@@ -86,6 +86,12 @@ Route::put('/quizzes/{quiz:slug}/questions/{question:question_number}/update',
     [QuestionController::class, 'update']
 );
 
+// Delete a Question
+Route::delete('/quizzes/{quiz:slug}/questions/{question:question_number}/delete',
+    [QuestionController::class, 'destroy']
+);
+
+
 // Plays a Quiz
 Route::get('/quizzes/{quiz:slug}/play', 
     [QuizController::class, 'play']

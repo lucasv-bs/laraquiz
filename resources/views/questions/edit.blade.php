@@ -10,6 +10,21 @@
         
         <div class="row">
             <x-card class="col">
+                <div class="row mb-4">
+                    <div class="col">
+                        <h1>Edit question</h1>
+                    </div>
+                    <div class="col text-end">
+                        <form method="POST" 
+                            action="/quizzes/{{$quiz->slug}}/questions/{{$question->question_number}}/delete"
+                            class="d-inline-block">
+                            @csrf
+                            @method('DELETE')
+
+                            <button class="btn btn-danger">Delete Question</button>
+                        </form>
+                    </div>
+                </div>
                 <form method="POST" action="/quizzes/{{ $quiz->slug }}/questions/{{$question->question_number}}/update"
                     enctype="application/x-www-form-urlencoded" class="needs-validation">
                     @csrf

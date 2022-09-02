@@ -58,7 +58,7 @@
                             <tr>
                                 <th>#</th>
                                 <th>Question title</th>
-                                <th class="text-center">Actions</th>
+                                <th class="text-center">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -67,8 +67,7 @@
                                 <td>{{$question->question_number}}</td>
                                 <td>{{$question->title}}</td>
                                 <td class="text-center">
-                                    <a href="/quizzes/{{$quiz->slug}}/questions/{{$question->question_number}}/edit" class="btn btn-success">Edit</a>
-                                    <a href="/quizzes/{{$quiz->slug}}/questions/{{$question->question_number}}/delete" class="btn btn-danger">Delete</a>
+                                    <a href="/quizzes/{{$quiz->slug}}/questions/{{$question->question_number}}/edit" class="btn btn-success">Edit</a>                                    
                                 </td>
                             </tr>
                             @endforeach
@@ -77,7 +76,7 @@
                     
                     <div class="row justify-content-between">
                         <div class="col">
-                            <button class="btn btn-primary">Update</button>
+                            <button type="submit" class="btn btn-primary">Update</button>
                         </div>
                         <div class="col text-end">
                             <a href="/quizzes/manage" class="btn btn-secondary">Return to Quizzes</a>

@@ -152,6 +152,36 @@ class QuestionController extends Controller
     }
 
 
+    // Delete a Question
+    public function destroy(Request $request, Quiz $quiz, Question $question)
+    {
+        // Check if user is Quiz owner
+        if($quiz->user_id != $request->user()->id) {
+            abort(403, 'Unauthorized Action');
+        }
+        
+        $completedQuizzes = $quiz->completedQuizzes()->count();
+        if ($completedQuizzes > 0) {
+            return back()->with([
+                'message' => 'Unable to delete question, because this quiz has already played at least once',
+                'status' => 'danger'
+            ]);
+        }
+        // Delete the question
+        $answers = $question->answers;
+        foreach($answers as $answer) {
+            $answer->delete();
+        }
+        $question->delete();
+
+        return redirect("/quizzes/$quiz->slug/edit")
+            ->with([
+            'message' => 'Question deleted successfully',
+            'status' => 'success'
+        ]);
+    }
+
+
     // Performs a Question
     public function perform(Quiz $quiz, Question $question)
     {
