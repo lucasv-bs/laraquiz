@@ -173,6 +173,7 @@ class QuestionController extends Controller
             $answer->delete();
         }
         $question->delete();
+        $this->adjustQuestionNumber($quiz);
 
         return redirect("/quizzes/$quiz->slug/edit")
             ->with([
@@ -194,5 +195,22 @@ class QuestionController extends Controller
             'answers' => $answers,
             'lastAnswersKey' => $lastAnswersKey
         ]);
+    }
+
+
+    // Adjust Questions number
+    public function adjustQuestionNumber(Quiz $quiz)
+    {
+        $questions = $quiz->questions()->orderBy('id')->get();
+        
+        $questionNumber = 1;
+        foreach($questions as $question) {
+            if(intval($question->question_number) != intval($questionNumber)) {
+
+                $question->question_number = $questionNumber;
+                $question->save();
+            }
+            $questionNumber += 1;
+        }
     }
 }
