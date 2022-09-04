@@ -47,10 +47,5 @@ class DatabaseSeeder extends Seeder
                 $answer->save();
             }
         }
-
-        // Runs additional seeders
-        $this->call([
-            QuizSeeder::class
-        ]);
     }
 }
