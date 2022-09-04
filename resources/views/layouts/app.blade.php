@@ -48,6 +48,10 @@
                         </li>
                         @auth
                             <li class="nav-item">
+                                <a class="nav-link @if (request()->path() == 'quizzes/create') active @endif" aria-current="page"
+                                    href="/quizzes/create">Create Quiz</a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link @if (request()->path() == 'quizzes/manage') active @endif" aria-current="page"
                                     href="/quizzes/manage">Manage my quizzes</a>
                             </li>
