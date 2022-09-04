@@ -10,7 +10,7 @@
                         <img 
                             src="{{$quiz->cover_image
                                 ? asset('storage/' . $quiz->cover_image)
-                                : asset('storage/quizzes/cover-images/no-image.png')
+                                : asset('storage/quizzes/cover-images/no-image.jpg')
                             }}" 
                             class="img-fluid rounded"
                             alt="Quiz cover image">
