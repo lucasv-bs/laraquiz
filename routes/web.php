@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 
 // Show all quizzes
@@ -46,9 +46,7 @@ Route::get('/quizzes/manage',
 )->middleware('auth');
 
 // Show a Quiz
-Route::get('/quizzes/{quiz:slug}', 
-    [QuizController::class, 'show']
-)->middleware('auth');
+Route::get('/quizzes/{quiz:slug}', [QuizController::class, 'show']);
 
 // Show form to edit a Quiz
 Route::get('quizzes/{quiz:slug}/edit', 

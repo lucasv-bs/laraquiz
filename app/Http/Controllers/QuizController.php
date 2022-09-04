@@ -22,7 +22,6 @@ class QuizController extends Controller
     // Show a Quiz
     public function show(Request $request, Quiz $quiz)
     {
-        $userCanEdit = $quiz->user_id == $request->user()->id;
         $questionsAmount = $quiz->questions()->count();
         $averageScore = $quiz->completedQuizzes()->avg('result');
         
