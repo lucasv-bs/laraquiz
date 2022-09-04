@@ -18,9 +18,18 @@ class DatabaseSeeder extends Seeder
         // Create a admin user
         $adminUser = \App\Models\User::factory()->create([
             'name' => 'admin',
-            'email' => 'admin@teste.com',
+            'email' => 'admin@test.com',
             'email_verified_at' => now(),
             'password' => '$2y$10$dYUI.e/YIt8rH.U/BixD1OOW9bpvglJGEfmFbNNTmfifDID1XCJUm', // admin
+            'remember_token' => Str::random(10),
+        ]);
+
+        // Create a test user
+        \App\Models\User::factory()->create([
+            'name' => 'test',
+            'email' => 'test@test.com',
+            'email_verified_at' => now(),
+            'password' => '$2y$10$Bw4ycZ8lP.kpfOU2drMUGeJ/QLvZbX73.Nrp48x6nWhCzb2IpzXUe', // testuser123
             'remember_token' => Str::random(10),
         ]);
 
