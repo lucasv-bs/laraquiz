@@ -49,7 +49,7 @@
                         @auth
                             <li class="nav-item">
                                 <a class="nav-link @if (request()->path() == 'quizzes/manage') active @endif" aria-current="page"
-                                    href="/quizzes">Manage my quizzes</a>
+                                    href="/quizzes/manage">Manage my quizzes</a>
                             </li>
                         @endauth
                     </ul>
