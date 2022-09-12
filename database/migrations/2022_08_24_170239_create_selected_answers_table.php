@@ -15,11 +15,11 @@ return new class extends Migration
     {
         Schema::create('selected_answers', function (Blueprint $table) {
             $table->id();
-            $table->integer('completed_quiz_id')->unsigned();
+            $table->foreignId('completed_quiz_id');
             $table->foreign('completed_quiz_id')->references('id')->on('completed_quizzes');
-            $table->integer('question_id')->unsigned();
+            $table->foreignId('question_id');
             $table->foreign('question_id')->references('id')->on('questions');
-            $table->integer('answer_id')->unsigned();
+            $table->foreignId('answer_id');
             $table->foreign('answer_id')->references('id')->on('answers');
             $table->softDeletes();
             $table->timestamps();

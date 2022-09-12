@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('completed_quizzes', function (Blueprint $table) {
             $table->id();
-            $table->integer('quiz_id')->unsigned();
+            $table->foreignId('quiz_id');
             $table->foreign('quiz_id')->references('id')->on('quizzes');
-            $table->integer('user_id')->unsigned();
+            $table->foreignId('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->smallInteger('total_questions')->unsigned();
             $table->smallInteger('result')->unsigned()->comment('Number of hits');

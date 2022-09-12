@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('answers', function (Blueprint $table) {
             $table->id();
-            $table->integer('question_id')->unsigned();
+            $table->foreignId('question_id');
             $table->foreign('question_id')->references('id')->on('questions');
             $table->string('answer_text');
             $table->smallInteger('answer_number')->unsigned();

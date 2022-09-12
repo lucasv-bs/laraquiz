@@ -15,10 +15,10 @@ return new class extends Migration
     {
         Schema::create('quizzes', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id')->unsigned();
+            $table->foreignId('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->string('title');
-            $table->string('slug')->unique()->after('title');
+            $table->string('slug')->unique();
             $table->string('description');
             $table->string('cover_image')->nullable();
             $table->softDeletes();
