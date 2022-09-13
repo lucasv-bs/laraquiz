@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -28,5 +29,10 @@ class AppServiceProvider extends ServiceProvider
         // because of the stated prefix limitation problem, 
         // present in MySQL versions 5.6 or earlier
         Schema::defaultStringLength(191);
+
+        // Prevents the loading mixed active content in production environment
+        if (env('APP_ENV') !== 'local') {
+            URL::forceScheme('https');
+        }
     }
 }
