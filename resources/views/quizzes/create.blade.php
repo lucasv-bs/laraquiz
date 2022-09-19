@@ -4,7 +4,7 @@
     <div class="container px-4">
         <div class="row">
             <x-card class="col">
-                <form method="POST" action="/quizzes/store" enctype="application/x-www-form-urlencoded"
+                <form method="POST" action="/quizzes/store" enctype="multipart/form-data"
                     class="needs-validation">
                     @csrf
 

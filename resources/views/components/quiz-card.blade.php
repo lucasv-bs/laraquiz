@@ -6,8 +6,8 @@
             <img 
                 src="{{
                     $quiz->cover_image 
-                    ? asset('storage/' . $quiz->cover_image)
-                    : asset('storage/quizzes/cover-images/no-image.jpg')
+                    ? Storage::url($quiz->cover_image)
+                    : Storage::url('quizzes/cover-images/no-image.jpg')
                 }}" 
                 class="img-fluid rounded"
                 alt="Quiz cover image">

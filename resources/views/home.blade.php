@@ -13,14 +13,14 @@
                     </p>
                 </div>
                 <div class="col-md-6 col-sm-12">
-                    <img src="{{asset('storage/home-take-quiz.jpg')}}" 
+                    <img src="{{Storage::url('quizzes/home-take-quiz.jpg')}}" 
                         class="img-fluid"
                         alt="Take a Quiz">
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-6 col-sm-12">
-                    <img src="{{asset('storage/home-create-quiz.jpg')}}" 
+                    <img src="{{Storage::url('quizzes/home-create-quiz.jpg')}}" 
                         class="img-fluid"
                         alt="Take a Quiz">
                 </div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Quiz;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class QuizController extends Controller
@@ -50,7 +51,9 @@ class QuizController extends Controller
         $formData['slug'] = Str::slug($request->input('title'));
 
         if ($request->hasFile('cover_image')) {
-            $formData['cover_image'] = $request->file('cover_image')->store('quizzes/cover-images', 'public');
+            $formData['cover_image'] = $request->file('cover_image')->store('quizzes/cover-images', 's3');
+
+            Storage::setVisibility($formData['cover_image'], 'public');
         }
         $formData['user_id'] = $request->user()->id;
 
@@ -104,7 +107,9 @@ class QuizController extends Controller
         $formData['slug'] = Str::slug($request->input('title'));
 
         if ($request->hasFile('cover_image')) {
-            $formData['cover_image'] = $request->file('cover_image')->store('quizzes/cover-images', 'public');
+            $formData['cover_image'] = $request->file('cover_image')->store('quizzes/cover-images', 's3');
+
+            Storage::setVisibility($formData['cover_image'], 'public');
         }
         $formData['user_id'] = $request->user()->id;
 

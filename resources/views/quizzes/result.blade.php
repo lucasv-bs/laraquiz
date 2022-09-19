@@ -11,8 +11,8 @@
             <div>
                 <img 
                     src="{{$quiz->cover_image
-                        ? asset('storage/quizzes/' . $quiz->cover_image)
-                        : asset('storage/quizzes/cover-images/no-image.png')
+                        ? Storage::url($quiz->cover_image)
+                        : Storage::url('quizzes/cover-images/no-image.jpg')
                     }}" 
                     alt="Quiz cover image">
             </div>
