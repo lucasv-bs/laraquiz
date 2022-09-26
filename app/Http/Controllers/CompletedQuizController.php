@@ -33,13 +33,13 @@ class CompletedQuizController extends Controller
 
         $completedQuiz = CompletedQuiz::where([
             ['quiz_id', $quiz->id],
-            ['user_id', 1]
+            ['user_id', $request->user()->id]
         ])->first();
 
         if(!$completedQuiz) {
             $completedQuiz = CompletedQuiz::create([
                 'quiz_id' => $quiz->id,
-                'user_id' => 1,
+                'user_id' => $request->user()->id,
                 'total_questions' => $quiz->questions()->count(),
                 'result' => $request->input('answer_number') == $question->correct_answer ? 1 : 0
             ]);
