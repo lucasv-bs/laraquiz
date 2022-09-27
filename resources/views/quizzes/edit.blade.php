@@ -38,7 +38,7 @@
                             id="quizCoverImage" name="cover_image" 
                             value="{{$quiz->cover_image}}">
 
-                        @error('title')
+                        @error('cover_image')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>

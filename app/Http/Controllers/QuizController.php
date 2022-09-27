@@ -46,7 +46,8 @@ class QuizController extends Controller
     {
         $formData = $request->validate([
             'title' => 'required',
-            'description' => 'required'
+            'description' => 'required',
+            'cover_image' => 'nullable|image|max:2048'
         ]);
         $formData['slug'] = Str::slug($request->input('title'));
 
@@ -102,7 +103,8 @@ class QuizController extends Controller
     {
         $formData = $request->validate([
             'title' => 'required',
-            'description' => 'required'
+            'description' => 'required',
+            'cover_image' => 'nullable|image|max:2048'
         ]);
         $formData['slug'] = Str::slug($request->input('title'));
 
